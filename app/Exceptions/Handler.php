@@ -2,11 +2,16 @@
 
 namespace App\Exceptions;
 
+use App\Http\Controllers\Reponses\RespondsJson;
+use App\Http\Controllers\Responses\ResponseCodes;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\Response as FoundationResponse;
 
 class Handler extends ExceptionHandler
 {
+    use RespondsJson;
     /**
      * A list of the exception types that are not reported.
      *
@@ -29,23 +34,38 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
         parent::report($exception);
     }
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
-     */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        if ($exception instanceof HttpException) {
+            if (! $exception instanceof ApiException) {
+                $exception = $this->prepareApiException($exception);
+            }
+            return $this->failed($exception->getStatusCode(), $exception->getCode(), $exception->getMessage());
+        }
+
+        if (config('app.debug', false)) {
+            return $this->prepareResponse($request, $exception);
+        }
+
+        return $this->failed(
+            FoundationResponse::HTTP_INTERNAL_SERVER_ERROR,
+            ResponseCodes::CODE_INTERNAL_SERVER_ERROR,
+            ResponseCodes::getMessage(ResponseCodes::CODE_INTERNAL_SERVER_ERROR)
+        );
+    }
+
+    public function prepareApiException(HttpException $exception)
+    {
+        $errorCode = ResponseCodes::getErrorCode($exception->getStatusCode());
+        return new ApiException($errorCode, $exception->getMessage(), $exception);
     }
 }
