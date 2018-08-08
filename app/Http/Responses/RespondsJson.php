@@ -6,9 +6,7 @@
  * Time: 3:46 AM
  */
 
-namespace App\Http\Controllers\Reponses;
-
-
+namespace App\Http\Responses;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response as FoundationResponse;
 

@@ -7,7 +7,7 @@
  * Github: https://github.com/borankux
  */
 
-namespace App\Http\Controllers\Responses;
+namespace App\Http\Responses;
 
 
 class ResponseCodes

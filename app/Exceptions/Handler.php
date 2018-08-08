@@ -2,10 +2,11 @@
 
 namespace App\Exceptions;
 
-use App\Http\Controllers\Reponses\RespondsJson;
+
 use App\Http\Controllers\Responses\ResponseCodes;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Http\Responses\RespondsJson;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Response as FoundationResponse;
 
