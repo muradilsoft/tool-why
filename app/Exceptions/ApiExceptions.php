@@ -9,7 +9,7 @@
 
 namespace App\Exceptions;
 
-use App\Http\Controllers\Responses\ResponseCodes;
+use App\Http\Responses\ResponseCodes;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ApiException extends HttpException

@@ -3,7 +3,7 @@
 namespace App\Exceptions;
 
 
-use App\Http\Controllers\Responses\ResponseCodes;
+use App\Http\Responses\ResponseCodes;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use App\Http\Responses\RespondsJson;
