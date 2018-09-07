@@ -16,3 +16,7 @@ use Illuminate\Http\Request;
 Route::group(['prefix'=>'info'], function() {
 	Route::get('site', 'InformationController@site');
 });
+
+Route::group(['prefix' => 'questions'], function() {
+    Route::get('add', 'QuestionController@add');
+});

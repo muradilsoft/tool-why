@@ -1,0 +1,108 @@
+swagger: '2.0'
+
+info:
+  version: 0.1.0
+  title: Why APIs
+  description: |
+   Api for Why
+  contact:
+    name: mirzatsoft
+    url: N/A
+    email: mirzatsoft@163.com
+  license:
+    name: N/A
+
+basePath: /api/v1
+
+schemes:
+  - https
+
+consumes:
+  - application/json
+
+produces:
+  - application/json
+
+paths:
+
+### Questions
+  /questions/:
+    get:
+      summary: "get all the questions"
+      tags:
+        - Questions
+    post:
+      summary: "create a question"
+      description: "create a question"
+      tags:
+        - Questions
+      parameters:
+        - $ref: '#/parameters/body_question'
+      responses:
+        201:
+          description: "question is created"
+          schema:
+            required:
+              - meta
+              - data
+            properties:
+              meta:
+                $ref: '#/definitions/Meta'
+  /questions/{question_id}:
+    get:
+      summary: "get certain question by question id"
+      description: "get certain question with question id"
+      tags:
+        - Questions
+parameters:
+  # bodies
+  body_question:
+    name: question
+    required: true
+    in: body
+    schema:
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        brief:
+          type: string
+
+
+definitions:
+  Question:
+    type: object
+    required:
+      - title
+    properties:
+      title:
+        type: string
+      brief:
+        type: string
+      status:
+        type: string
+        enum:
+          - open
+          - close
+      question_id:
+        type: string
+  Answer:
+    type: object
+    required:
+      - content
+    properties:
+      content:
+        type: string
+  Meta:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+        default: 'success'
