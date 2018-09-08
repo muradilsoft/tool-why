@@ -25,6 +25,26 @@ produces:
 
 paths:
 
+### Authentication
+  /auth/login:
+    get:
+      summary: 'login'
+      description: 'login'
+      tags:
+        - Authentication
+      parameters:
+        - $ref: '#/parameters/body_login'
+      responses:
+        200:
+          description: 'login success'
+          schema:
+            required:
+              - meta
+              - data
+            properties:
+              meta:
+                $ref: '#/definitions/Meta'
+
 ### Questions
   /questions:
     get:
@@ -60,7 +80,7 @@ paths:
             properties:
               meta:
                 $ref: '#/definitions/Meta'
-  /questions/{questionId}:
+  /questions/{question_id}:
     get:
       summary: 'get a question by id'
       description: 'provide a question id to retrieve a specific quesion'
@@ -115,6 +135,23 @@ paths:
 
 parameters:
   # bodies
+
+  body_login:
+    name: body_login
+    required: true
+    in: body
+    schema:
+      required:
+        - account
+        - password
+      properties:
+        account:
+          type: string
+        password:
+          type: string
+          minLength: 6
+          maxLength: 16
+
   body_question:
     name: question
     required: true
@@ -134,11 +171,19 @@ parameters:
     in: query
     type: string
 
+
   #path
+  path_openId:
+    required: true
+    description: 'unique id for user'
+    name: open_id
+    in: path
+    type: string
+
   path_questionId:
     required: true
     description: 'question id'
-    name: questionId
+    name: question_id
     in: path
     type: string
 
@@ -178,3 +223,13 @@ definitions:
       message:
         type: string
         default: 'success'
+  User:
+    type: object
+    properties:
+      account:
+        type: string
+      password:
+        type: string
+      avatar:
+        type: object
+
