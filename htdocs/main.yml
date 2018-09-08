@@ -12,7 +12,7 @@ info:
   license:
     name: N/A
 
-basePath: /api/v1
+basePath: /api
 
 schemes:
   - https
@@ -26,11 +26,23 @@ produces:
 paths:
 
 ### Questions
-  /questions/:
+  /questions:
     get:
       summary: "get all the questions"
       tags:
         - Questions
+      parameters:
+        - $ref: '#/parameters/query_authorId'
+      responses:
+        200:
+          description: 'get questions by conditions or get them all'
+          schema:
+            required:
+              - meta
+              - data
+            properties:
+              meta:
+                $ref: '#/definitions/Meta'
     post:
       summary: "create a question"
       description: "create a question"
@@ -48,12 +60,59 @@ paths:
             properties:
               meta:
                 $ref: '#/definitions/Meta'
-  /questions/{question_id}:
+  /questions/{questionId}:
     get:
-      summary: "get certain question by question id"
-      description: "get certain question with question id"
+      summary: 'get a question by id'
+      description: 'provide a question id to retrieve a specific quesion'
       tags:
         - Questions
+      parameters:
+        - $ref: '#/parameters/path_questionId'
+      responses:
+        200:
+          description: 'success'
+          schema:
+            required:
+              - meta
+              - data
+            properties:
+              meta:
+                $ref: '#/definitions/Meta'
+    put:
+      summary: 'update question'
+      description: 'provide a question id and contents to update'
+      tags:
+        - Questions
+      parameters:
+        - $ref: '#/parameters/path_questionId'
+        - $ref: '#/parameters/body_question'
+      responses:
+        202:
+          description: 'updated'
+          schema:
+            required:
+              - meta
+              - data
+            properties:
+              meta:
+                $ref: '#/definitions/Meta'
+    delete:
+      summary: 'delete question'
+      description: 'delete a question'
+      tags:
+        - Questions
+      parameters:
+        - $ref: '#/parameters/path_questionId'
+      responses:
+        202:
+          description: 'deleted'
+          schema:
+            required:
+              - meta
+            properties:
+              meta:
+                $ref: '#/definitions/Meta'
+
 parameters:
   # bodies
   body_question:
@@ -68,7 +127,20 @@ parameters:
           type: string
         brief:
           type: string
+  #queries
+  query_authorId:
+    name: author_id
+    required: false
+    in: query
+    type: string
 
+  #path
+  path_questionId:
+    required: true
+    description: 'question id'
+    name: questionId
+    in: path
+    type: string
 
 definitions:
   Question:

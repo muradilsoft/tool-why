@@ -16,8 +16,8 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->text('brief');
-            $table->string('status');
+            $table->text('brief')->nullable();
+            $table->string('status')->default('open');
             $table->timestamps();
         });
     }
