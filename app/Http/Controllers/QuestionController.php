@@ -30,7 +30,9 @@ class QuestionController extends Controller
 
     public function getAll(Request $request){
         $params = $this->parseRequest($request, [
-           'body_name' => 'body_get_questions'
+            'query_name' => [
+                'query_authorId'
+            ]
         ]);
         $questions = $this->questionService->getAllQuestions($params);
         return $this->ok($questions);

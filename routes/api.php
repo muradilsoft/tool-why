@@ -19,5 +19,5 @@ Route::group(['prefix'=>'info'], function() {
 
 Route::group(['prefix' => 'questions'], function() {
     Route::post('/', 'QuestionController@add');
-    Route::get('/', 'QuestionController@get');
+    Route::get('/', 'QuestionController@getAll');
 });
