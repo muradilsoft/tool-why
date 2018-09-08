@@ -1,4 +1,9 @@
-all: serve
+all: setup
 
-serve:
-	php artisan serve
+setup: prepare-docs-json
+
+prepare-docs-json:
+	php artisan util:yamltojson
+
+prepare-database:
+	php artisan migrate
