@@ -132,7 +132,25 @@ paths:
             properties:
               meta:
                 $ref: '#/definitions/Meta'
-
+  /answers:
+    post:
+      summary: 'create an answer'
+      description: 'create an answer for the specific qustion'
+      tags:
+        - Answer
+      parameters: 
+        - $ref: '#/parameters/body_answer'
+      responses:
+        200:
+          description: OK
+          schema:
+            required: 
+              - meta
+              - data
+            properties:
+              meta:
+                $ref: '#/definitions/Meta'
+      
 parameters:
   # bodies
 
@@ -163,6 +181,19 @@ parameters:
         title:
           type: string
         brief:
+          type: string
+
+  body_answer:
+    name: answer
+    in: body
+    schema:
+      required: 
+        - question_id
+        - content
+      properties:
+        question_id:
+          type: string
+        content:
           type: string
   #queries
   query_authorId:
